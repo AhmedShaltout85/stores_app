@@ -43,7 +43,7 @@ class AppApiServiceImpl implements AppApiService {
       Response response = await dio.get(baseUrl);
       if (response.statusCode == 200) {
         var jsonData = response.data;
-        log('Products Data: ${jsonData[0]['title']}');
+        // log('Products Data: ${jsonData[0]['title']}');
         List<Product> products = (jsonData as List).map((productJson) => Product.fromJson(productJson)).toList();
      
         return products;

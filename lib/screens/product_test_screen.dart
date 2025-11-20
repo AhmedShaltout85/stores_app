@@ -39,11 +39,37 @@ class ProductScreen extends StatelessWidget {
                     },
                   ),
                 ),
+                Container(
+                  alignment: Alignment.center,
+                  color: Colors.grey[200],
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        productProvider.getCategoryProductData(
+                            productProvider.categoryProductList[index]);
+                      },
+                      child: Card(
+                        color: Colors.blueAccent,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 11.0, vertical: 8.0),
+                          child: Text(
+                            productProvider.categoryProductList[index],
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    itemCount: productProvider.categoryProductList.length,
+                  ),
+                ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: productProvider.newsList.length,
+                    itemCount: productProvider.productList.length,
                     itemBuilder: (context, index) {
-                      final product = productProvider.newsList[index];
+                      final product = productProvider.productList[index];
                       return ProductCard(product: product);
                     },
                   ),
