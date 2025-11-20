@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../controller/product_provider.dart';
 import '../../models/product_model.dart';
+import '../utils/app_routes.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
@@ -124,6 +125,11 @@ class ProductCard extends StatelessWidget {
         ),
         onTap: () {
           // Navigate to article detail
+          Navigator.pushNamed(
+            context,
+            AppRoutes.detailRouteName,
+            arguments: product,
+          );
         },
       ),
     );

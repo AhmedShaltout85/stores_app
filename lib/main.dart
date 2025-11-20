@@ -6,6 +6,7 @@ import 'controller/product_provider.dart';
 import 'controller/locale_provider.dart';
 import 'controller/theme_provider.dart';
 import 'l10n/app_localizations.dart';
+import 'screens/detail_screen.dart';
 import 'screens/product_test_screen.dart';
 import 'screens/splash_screen.dart';
 import 'utils/app_routes.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.splashRouteName: (context) => const SplashScreen(),
         AppRoutes.productRouteName: (context) => const ProductScreen(),
+        AppRoutes.detailRouteName: (context) => const DetailScreen(),
 
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
