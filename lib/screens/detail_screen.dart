@@ -36,6 +36,33 @@ class DetailScreen extends StatelessWidget {
                     style: const TextStyle(fontSize: 16.0),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    product.category,
+                    style: const TextStyle(
+                        fontSize: 16.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        '\$${product.price.toString()} USD',
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        '${product.rating.rate} (${product.rating.count} reviews)',
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           )
