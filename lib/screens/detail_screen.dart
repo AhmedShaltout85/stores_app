@@ -13,6 +13,7 @@ class DetailScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            iconTheme: const IconThemeData(color: Colors.white),
             expandedHeight: 300,
             floating: false,
             pinned: true,
