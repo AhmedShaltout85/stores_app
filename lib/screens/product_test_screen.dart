@@ -13,13 +13,23 @@ class ProductScreen extends StatelessWidget {
     var productProvider = context.watch<ProductProvider>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product App'),
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.blue),
+        title: const Text(
+          'Product App',
+          style: TextStyle(
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+            fontSize: 15.0,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.search),
             onPressed: () =>
-                Provider.of<ProductProvider>(context, listen: false)
-                    .getProductData(),
+                Navigator.pushNamed(context, AppRoutes.mainRouteName),
+            // Provider.of<ProductProvider>(context, listen: false)
+            //     .getProductData(),
           ),
         ],
       ),
@@ -27,19 +37,19 @@ class ProductScreen extends StatelessWidget {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Search products...',
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                    onChanged: (value) {
-                      productProvider.searchProduct(value);
-                    },
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: TextField(
+                //     decoration: const InputDecoration(
+                //       border: OutlineInputBorder(),
+                //       hintText: 'Search products...',
+                //       prefixIcon: Icon(Icons.search),
+                //     ),
+                //     onChanged: (value) {
+                //       productProvider.searchProduct(value);
+                //     },
+                //   ),
+                // ),
                 Container(
                   alignment: Alignment.center,
                   color: Colors.grey[200],

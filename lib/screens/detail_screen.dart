@@ -13,13 +13,16 @@ class DetailScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: Colors.blue,
             iconTheme: const IconThemeData(color: Colors.white),
             expandedHeight: 300,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(product.title,
-                  style: const TextStyle(color: Colors.white)),
+              title: Text(
+                product.title,
+                style: const TextStyle(color: Colors.white, fontSize: 13.0),
+              ),
               background: Image(
                 image: NetworkImage(product.imageUrl),
                 fit: BoxFit.cover,
@@ -63,6 +66,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 800),
               ],
             ),
           )

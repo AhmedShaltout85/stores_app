@@ -5,4 +5,5 @@ class AppRoutes {
   static const String searchRouteName = '/search-screen';
   static const String detailRouteName = '/detail-screen';
   static const String productRouteName = '/product-screen';
+  static const String mainRouteName = '/main-screen';
 }
