@@ -1,23 +1,25 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:store_app/models/login_model.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/utils/app_constants.dart';
 
 import 'app_api_service.dart';
 
 class AppApiServiceImpl implements AppApiService {
-  late Dio dio;
+  static late Dio dio;
 
-  // Private constructor
-  AppApiServiceImpl._() {
-    dio = Dio();
+  static AppApiServiceImpl instance = AppApiServiceImpl();
+
+  static init() {
+    dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        receiveDataWhenStatusError: true,
+      ),
+    );
   }
-
-  static final AppApiServiceImpl _instance = AppApiServiceImpl._();
-  static final AppApiServiceImpl getInstance = AppApiServiceImpl._();
-  // Factory constructor returns the same instance
-  factory AppApiServiceImpl() => _instance;
 
   @override
   Future<List<Product>> getProductCategoryData(String category) async {
@@ -26,7 +28,9 @@ class AppApiServiceImpl implements AppApiService {
       if (response.statusCode == 200) {
         var jsonData = response.data;
         log('Category Products Data: $jsonData');
-        List<Product> products = (jsonData as List).map((productJson) => Product.fromJson(productJson)).toList();
+        List<Product> products = (jsonData as List)
+            .map((productJson) => Product.fromJson(productJson))
+            .toList();
 
         return products;
       }
@@ -38,14 +42,16 @@ class AppApiServiceImpl implements AppApiService {
   }
 
   @override
-  Future<List<Product>> getProductData() async{
+  Future<List<Product>> getProductData() async {
     try {
       Response response = await dio.get(baseUrl);
       if (response.statusCode == 200) {
         var jsonData = response.data;
         // log('Products Data: ${jsonData[0]['title']}');
-        List<Product> products = (jsonData as List).map((productJson) => Product.fromJson(productJson)).toList();
-     
+        List<Product> products = (jsonData as List)
+            .map((productJson) => Product.fromJson(productJson))
+            .toList();
+
         return products;
       }
     } catch (e) {
@@ -55,13 +61,16 @@ class AppApiServiceImpl implements AppApiService {
   }
 
   @override
-  Future<List<Product>> searchProductData(String query)async {
+  Future<List<Product>> searchProductData(String query) async {
     try {
-      Response response = await dio.get('$baseUrl/search', queryParameters: {'q': query});
+      Response response =
+          await dio.get('$baseUrl/search', queryParameters: {'q': query});
       if (response.statusCode == 200) {
         var jsonData = response.data;
         log('Search Products Data: $jsonData');
-        List<Product> products = (jsonData as List).map((productJson) => Product.fromJson(productJson)).toList();
+        List<Product> products = (jsonData as List)
+            .map((productJson) => Product.fromJson(productJson))
+            .toList();
 
         return products;
       }
@@ -69,7 +78,30 @@ class AppApiServiceImpl implements AppApiService {
       throw Exception('Failed to search products: $e');
     }
     throw UnimplementedError();
+  }
 
-   
+  @override
+  Future<Login> loginUser(
+      {required String userName, required String password}) async {
+    try {
+      Response response = await dio.post(
+        loginUrl,
+        data: {
+          'username': userName,
+          'password': password,
+        },
+      );
+      if (response.statusCode == 201) {
+        var jsonData = response.data;
+        log('Login BODY Data: $jsonData');
+        Login login = Login.fromJson(jsonData);
+        log(login.token ?? '');
+
+        return login;
+      }
+    } catch (e) {
+      throw Exception('Failed to login user: $e');
+    }
+    throw UnimplementedError();
   }
 }

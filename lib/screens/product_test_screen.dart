@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../controller/product_provider.dart';
 import '../utils/app_routes.dart';
-import 'widgets/product_card.dart';
+import 'widgets/product/product_card.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
