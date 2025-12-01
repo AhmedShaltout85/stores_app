@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_routes.dart';
 import 'build_social_button.dart';
 
 class AdditionalOptions extends StatelessWidget {
@@ -46,6 +47,8 @@ class AdditionalOptions extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // Handle sign up action
+                //TODO: Navigate to Signup Screen
+                Navigator.pushNamed(context, AppRoutes.signupRouteName);
               },
               child: const Text('Sign up'),
             ),

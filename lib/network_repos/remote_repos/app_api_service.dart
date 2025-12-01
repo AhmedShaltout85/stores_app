@@ -2,6 +2,7 @@
 
 import 'package:store_app/models/login_model.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/models/signup_response.dart';
 
 abstract class AppApiService {
 
@@ -9,4 +10,5 @@ abstract class AppApiService {
   Future<List<Product>> getProductCategoryData(String category);
   Future<List<Product>> searchProductData(String query);
   Future<Login> loginUser({required String userName, required String password});
+  Future<void> signupUser({SignupResponse? signupResponse});
 }

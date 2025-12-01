@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:store_app/screens/signup_screen.dart';
 
 import 'controller/login_provider.dart';
 import 'controller/product_provider.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.productRouteName: (context) => const ProductScreen(),
         AppRoutes.detailRouteName: (context) => const DetailScreen(),
         AppRoutes.loginRouteName: (context) => const LoginScreen(),
+        AppRoutes.signupRouteName: (context) => const SignupScreen(),
 
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,

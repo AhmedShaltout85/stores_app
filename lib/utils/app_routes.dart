@@ -7,4 +7,5 @@ class AppRoutes {
   static const String productRouteName = '/product-screen';
   static const String mainRouteName = '/main-screen';
   static const String loginRouteName = '/login-screen';
+  static const String signupRouteName = '/signup-screen';
 }

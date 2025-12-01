@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:store_app/models/login_model.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/models/signup_response.dart';
 import 'package:store_app/utils/app_constants.dart';
 
 import 'app_api_service.dart';
@@ -103,5 +104,29 @@ class AppApiServiceImpl implements AppApiService {
       throw Exception('Failed to login user: $e');
     }
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> signupUser({SignupResponse? signupResponse}) async {
+    try {
+      Response response = await dio.post(
+        signupUrl,
+        data: {
+          // 'username': 'abc123',
+          // 'email': 'abc123@example.com',
+          // 'password': 'password123',
+          'username': signupResponse?.username,
+          'email': signupResponse?.email,
+          'password': signupResponse?.password,
+        },
+      ) as Response<Object?>;
+      if (response.statusCode == 201) {
+        var jsonData = response.data;
+        log('Signup BODY Data: $jsonData');
+        log('User signed up successfully ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to signup user: $e');
+    }
   }
 }
