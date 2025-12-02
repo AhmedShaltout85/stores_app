@@ -1,162 +1,75 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../controller/signup_provider.dart';
+import 'widgets/signup/build_header.dart';
+import 'widgets/signup/build_login_redirect.dart';
+import 'widgets/signup/build_signup_button.dart';
+import 'widgets/signup/build_signup_form.dart';
+import 'widgets/signup/build_terms_section.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-        appBar: AppBar(
-          // title: const Text('Signup Screen'),
-          iconTheme: const IconThemeData(color: Colors.blue),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.grey[700]),
+          onPressed: () => Navigator.pop(context),
         ),
-        body: Consumer<SignupProvider>(
-            builder: (context, provider, child) => ListView(
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Consumer<SignupProvider>(
+            builder: (context, provider, child) {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: size.width * 0.08,
+                  vertical: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Register',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue),
-                        textAlign: TextAlign.center),
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(30),
-                        margin: const EdgeInsets.all(30),
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextFormField(
-                              decoration: InputDecoration(
-                                fillColor: Colors.grey[200],
-                                filled: true,
-                                labelText: 'Username',
-                                hintText: 'Enter your username',
-                                prefixIcon: const Icon(Icons.person),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                errorText: provider.usernameError.isNotEmpty
-                                    ? provider.usernameError
-                                    : null,
-                                errorMaxLines: 2,
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
-                              onChanged: provider.setUsername,
-                              enabled: !provider.isLoading,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                            ),
-                            const SizedBox(height: 20),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                fillColor: Colors.grey[200],
-                                filled: true,
-                                labelText: 'Email',
-                                hintText: 'Enter your email',
-                                prefixIcon: const Icon(Icons.email),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                errorText: provider.emailError.isNotEmpty
-                                    ? provider.emailError
-                                    : null,
-                                errorMaxLines: 2,
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
-                              onChanged: provider.setEmail,
-                              enabled: !provider.isLoading,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                            ),
-                            const SizedBox(height: 20),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                fillColor: Colors.grey[200],
-                                filled: true,
-                                labelText: 'Password',
-                                hintText: 'Enter your password',
-                                prefixIcon: const Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    provider.isPasswordVisible
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: Colors.grey[600],
-                                  ),
-                                  onPressed: provider.togglePasswordVisibility,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                errorText: provider.passwordError.isNotEmpty
-                                    ? provider.passwordError
-                                    : null,
-                                errorMaxLines: 2,
-                              ),
-                              obscureText: !provider.isPasswordVisible,
-                              onChanged: provider.setPassword,
-                              enabled: !provider.isLoading,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                            ),
-                            const SizedBox(height: 20),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                fillColor: Colors.grey[200],
-                                filled: true,
-                                labelText: 'Confirm Password',
-                                hintText: 'Confirm your password',
-                                prefixIcon: const Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    provider.isPasswordVisible
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: Colors.grey[600],
-                                  ),
-                                  onPressed: provider.togglePasswordVisibility,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                errorText: provider.passwordError.isNotEmpty
-                                    ? provider.passwordError
-                                    : null,
-                                errorMaxLines: 2,
-                              ),
-                              obscureText: !provider.isPasswordVisible,
-                              onChanged: provider.setPassword,
-                              enabled: !provider.isLoading,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                            ),
-                            const SizedBox(height: 20),
-                            ElevatedButton(
-                              onPressed: provider.isLoading
-                                  ? null
-                                  : provider.submitSignup,
-                              child: provider.isLoading
-                                  ? const CircularProgressIndicator()
-                                  : const Text('Signup'),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(provider.apiError),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Header Section
+                    buildHeader(size),
+                    const SizedBox(height: 40),
+
+                    // Form Section
+                    buildSignupForm(provider, context),
+                    const SizedBox(height: 30),
+
+                    // Terms and Conditions
+                    buildTermsSection(),
+                    const SizedBox(height: 40),
+
+                    // Sign Up Button
+                    buildSignupButton(provider, context),
+                    const SizedBox(height: 30),
+
+                    // Login Redirect
+                    buildLoginRedirect(context),
                   ],
-                )));
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
   }
-}
+
+  
+
+
+ 
+  
+
+  }

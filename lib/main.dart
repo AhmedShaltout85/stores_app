@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:store_app/network_repos/local_repo/cache_helper.dart';
 import 'package:store_app/screens/signup_screen.dart';
 
 import 'controller/login_provider.dart';
@@ -17,9 +18,12 @@ import 'screens/splash_screen.dart';
 import 'utils/app_routes.dart';
 import 'utils/app_theme.dart';
 
-void main() {
-
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   AppApiServiceImpl.init();
+
+  String? token = await CacheHelper.getToken();
+  bool isLoggedIn = token != null && token.isNotEmpty;
 
   runApp(
     MultiProvider(
@@ -29,16 +33,18 @@ void main() {
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(
-            create: (_) =>
-                ProductProvider()..getProductData()),
+            create: (_) => ProductProvider()..getProductData()),
       ],
-      child: const MyApp(),
+      child: MyApp(
+        isLoggedIn: isLoggedIn,
+      ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +52,14 @@ class MyApp extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.loginRouteName,
+      initialRoute:
+          isLoggedIn ? AppRoutes.productRouteName : AppRoutes.loginRouteName,
       routes: {
         AppRoutes.splashRouteName: (context) => const SplashScreen(),
         AppRoutes.productRouteName: (context) => const ProductScreen(),
         AppRoutes.detailRouteName: (context) => const DetailScreen(),
         AppRoutes.loginRouteName: (context) => const LoginScreen(),
         AppRoutes.signupRouteName: (context) => const SignupScreen(),
-
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -61,8 +67,6 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: themeProvider.themeMode,
       locale: localeProvider.locale,
-  
     );
   }
 }
-

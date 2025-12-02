@@ -1,84 +1,76 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../models/signup_response.dart';
 import '../network_repos/remote_repos/app_api_service_impl.dart';
 
-class SignupProvider with ChangeNotifier {
-  // Form fields
+class SignupProvider extends ChangeNotifier {
   String _username = '';
   String _email = '';
   String _password = '';
+  String _confirmPassword = '';
 
-  // Validation states
   String _usernameError = '';
   String _emailError = '';
   String _passwordError = '';
-  String _apiError = '';
+  String _confirmPasswordError = '';
 
-  // UI states
-  bool _isPasswordVisible = false;
   bool _isLoading = false;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   // Getters
-  String get username => _username;
-  String get email => _email;
-  String get password => _password;
   String get usernameError => _usernameError;
   String get emailError => _emailError;
   String get passwordError => _passwordError;
-  String get apiError => _apiError;
-  bool get isPasswordVisible => _isPasswordVisible;
+  String get confirmPasswordError => _confirmPasswordError;
+
   bool get isLoading => _isLoading;
-  bool get hasErrors =>
-      _usernameError.isNotEmpty ||
-      _emailError.isNotEmpty ||
-      _passwordError.isNotEmpty ||
-      _apiError.isNotEmpty;
+  bool get isPasswordVisible => _isPasswordVisible;
+  bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
 
   // Setters with validation
   void setUsername(String value) {
     _username = value.trim();
     _validateUsername();
-    _clearApiError();
     notifyListeners();
   }
 
   void setEmail(String value) {
     _email = value.trim();
     _validateEmail();
-    _clearApiError();
     notifyListeners();
   }
 
   void setPassword(String value) {
-    _password = value.trim();
+    _password = value;
     _validatePassword();
-    _clearApiError();
+    _validateConfirmPassword();
     notifyListeners();
   }
 
-  void togglePasswordVisibility() {
-    _isPasswordVisible = !_isPasswordVisible;
+  void setConfirmPassword(String value) {
+    _confirmPassword = value;
+    _validateConfirmPassword();
     notifyListeners();
   }
 
+  // Validation methods
   void _validateUsername() {
     if (_username.isEmpty) {
-      _usernameError = 'Username cannot be empty';
+      _usernameError = 'Username is required';
     } else if (_username.length < 3) {
-      _usernameError = 'Username must be at least 3 characters long';
+      _usernameError = 'Username must be at least 3 characters';
     } else {
       _usernameError = '';
     }
   }
 
   void _validateEmail() {
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
     if (_email.isEmpty) {
-      _emailError = 'Email cannot be empty';
-    } else if (!_email.contains('@')) {
-      _emailError = 'Enter a valid email address';
+      _emailError = 'Email is required';
+    } else if (!emailRegex.hasMatch(_email)) {
+      _emailError = 'Please enter a valid email';
     } else {
       _emailError = '';
     }
@@ -86,65 +78,89 @@ class SignupProvider with ChangeNotifier {
 
   void _validatePassword() {
     if (_password.isEmpty) {
-      _passwordError = 'Password cannot be empty';
+      _passwordError = 'Password is required';
     } else if (_password.length < 6) {
-      _passwordError = 'Password must be at least 6 characters long';
+      _passwordError = 'Password must be at least 6 characters';
     } else {
       _passwordError = '';
     }
   }
 
-  void _clearApiError() {
-    _apiError = '';
-  }
-
-  void setApiError(String error) {
-    _apiError = error;
-    notifyListeners();
-  }
-
-  void setLoading(bool value) {
-    _isLoading = value;
-    notifyListeners();
-  }
-
-  Future<void> resetForm() async {
-    _username = '';
-    _email = '';
-    _password = '';
-    _usernameError = '';
-    _emailError = '';
-    _passwordError = '';
-    _apiError = '';
-    _isPasswordVisible = false;
-    _isLoading = false;
-    notifyListeners();
-  }
-
-  Future<void> submitSignup() async {
-    _validateUsername();
-    _validateEmail();
-    _validatePassword();
-    if (hasErrors) {
-      return;
+  void _validateConfirmPassword() {
+    if (_confirmPassword.isEmpty) {
+      _confirmPasswordError = 'Please confirm your password';
+    } else if (_password != _confirmPassword) {
+      _confirmPasswordError = 'Passwords do not match';
+    } else {
+      _confirmPasswordError = '';
     }
-    setLoading(true);
+  }
+
+  // Form validation
+  bool isFormValid() {
+    return _usernameError.isEmpty &&
+        _emailError.isEmpty &&
+        _passwordError.isEmpty &&
+        _confirmPasswordError.isEmpty &&
+        _username.isNotEmpty &&
+        _email.isNotEmpty &&
+        _password.isNotEmpty &&
+        _confirmPassword.isNotEmpty;
+  }
+
+  // Visibility toggles
+  void togglePasswordVisibility() {
+    _isPasswordVisible = !_isPasswordVisible;
+    notifyListeners();
+  }
+
+  void toggleConfirmPasswordVisibility() {
+    _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+    notifyListeners();
+  }
+
+  // Submit method
+  Future<void> submitSignup(BuildContext context) async {
+    if (!isFormValid()) return;
+
+    _isLoading = true;
+    notifyListeners();
+
     try {
-      SignupResponse signupResponse = SignupResponse(
-  
-        username: _username,
-        email: _email,
-        password: _password,
+      // Simulate API call
+      await AppApiServiceImpl.instance.signupUser();
+
+      // Clear form
+      _username = '';
+      _email = '';
+      _password = '';
+      _confirmPassword = '';
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Account created successfully!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       );
-      log('Signup Response: ${signupResponse.username}, ${signupResponse.email}, ${signupResponse.password}');
-      await AppApiServiceImpl.instance
-          .signupUser(signupResponse: signupResponse);
-      await resetForm();
-    } catch (e) {
-      setApiError('Signup failed: $e');
+
+      // Navigate to home or login
+      // Navigator.pushReplacementNamed(context, '/home');
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Signup failed: $error'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     } finally {
-      setLoading(false);
+      _isLoading = false;
+      notifyListeners();
     }
-    notifyListeners();
   }
 }
