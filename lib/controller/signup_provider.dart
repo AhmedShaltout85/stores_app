@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../models/signup_response.dart';
@@ -129,10 +131,12 @@ class SignupProvider with ChangeNotifier {
     setLoading(true);
     try {
       SignupResponse signupResponse = SignupResponse(
+  
         username: _username,
         email: _email,
         password: _password,
       );
+      log('Signup Response: ${signupResponse.username}, ${signupResponse.email}, ${signupResponse.password}');
       await AppApiServiceImpl.instance
           .signupUser(signupResponse: signupResponse);
       await resetForm();
@@ -140,7 +144,7 @@ class SignupProvider with ChangeNotifier {
       setApiError('Signup failed: $e');
     } finally {
       setLoading(false);
-      notifyListeners();
     }
+    notifyListeners();
   }
 }

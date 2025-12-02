@@ -6,6 +6,7 @@ import 'package:store_app/screens/signup_screen.dart';
 import 'controller/login_provider.dart';
 import 'controller/product_provider.dart';
 import 'controller/locale_provider.dart';
+import 'controller/signup_provider.dart';
 import 'controller/theme_provider.dart';
 import 'l10n/app_localizations.dart';
 import 'network_repos/remote_repos/app_api_service_impl.dart';
@@ -26,6 +27,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => SignupProvider()),
         ChangeNotifierProvider(
             create: (_) =>
                 ProductProvider()..getProductData()),
