@@ -10,13 +10,13 @@ class LoginHeader extends StatelessWidget {
         Container(
           width: 100,
           height: 100,
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(20),
+          decoration:  BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.blue[400],
           ),
           child: const Icon(
-            Icons.lock,
-            size: 50,
+            Icons.person,
+            size: 70,
             color: Colors.white,
           ),
         ),

@@ -24,7 +24,7 @@ class LoginForm extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Username',
                 hintText: 'Enter your username',
-                prefixIcon: const Icon(Icons.person),
+                prefixIcon: const Icon(Icons.person, color: Colors.blue),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -46,7 +46,7 @@ class LoginForm extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Enter your password',
-                prefixIcon: const Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock, color: Colors.blue),
                 suffixIcon: IconButton(
                   icon: Icon(
                     provider.isPasswordVisible
