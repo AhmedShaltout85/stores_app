@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:store_app/network_repos/local_repo/cache_helper.dart';
+import 'package:store_app/screens/main_screen.dart';
 import 'package:store_app/screens/signup_screen.dart';
 
 import 'controller/login_provider.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.detailRouteName: (context) => const DetailScreen(),
         AppRoutes.loginRouteName: (context) => const LoginScreen(),
         AppRoutes.signupRouteName: (context) => const SignupScreen(),
+        AppRoutes.mainRouteName: (context) => const MainScreen(),
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

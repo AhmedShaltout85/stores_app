@@ -27,6 +27,7 @@ class MainScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
+                    
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Search products...',
@@ -35,6 +36,7 @@ class MainScreen extends StatelessWidget {
                     onChanged: (value) {
                       productProvider.searchProduct(value);
                     },
+                    
                   ),
                 ),
                 Expanded(
