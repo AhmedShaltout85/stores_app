@@ -1,56 +1,43 @@
-# News App
+# Store App
 
-A modern Flutter news application built with Provider state management.
+A Flutter-based e-commerce store application with internationalization support and state management.
 
 ## Features
 
-- Browse latest news articles
-- Clean and intuitive user interface
-- Secure local data storage
-- Multi-language support
-- HTTP API integration
-- Splash screen
+- 🛍️ E-commerce functionality
+- 🌐 Multi-language support (Localization)
+- 🔐 Secure local storage
+- 📱 Native splash screen
+- 🎨 Material Design UI
+- 🔄 State management with Provider
+- 🌐 HTTP networking with Dio
 
-## Tech Stack
+## Dependencies
 
-### Framework
-- **Flutter SDK**: ^3.5.3
-- **Dart**: Latest stable version
-
-### State Management
-- **Provider**: ^6.1.5+1 - Robust state management solution
-
-### Networking
-- **Dio**: ^5.9.0 - Powerful HTTP client for API requests
-- **HTTP**: ^1.6.0 - Additional HTTP support
-
-### Local Storage
-- **Flutter Secure Storage**: ^9.2.4 - Encrypted storage for sensitive data
-- **Shared Preferences**: ^2.5.3 - Simple key-value storage
-
-### Internationalization
-- **flutter_localizations**: Built-in localization support
-- **intl**: Date and number formatting
-
-### UI/UX
-- **Flutter Native Splash**: ^2.4.4 - Native splash screen
-- **Cupertino Icons**: ^1.0.8 - iOS-style icons
+### Core Dependencies
+- **flutter_localization** (^0.3.3) - Multi-language support
+- **provider** (^6.1.5+1) - State management
+- **dio** (^5.9.0) - Advanced HTTP client
+- **http** (^1.6.0) - HTTP requests
+- **flutter_secure_storage** (^9.2.4) - Secure data storage
+- **shared_preferences** (^2.5.3) - Local key-value storage
+- **flutter_native_splash** (^2.4.4) - Custom splash screen
+- **cupertino_icons** (^1.0.8) - iOS-style icons
 
 ## Getting Started
 
 ### Prerequisites
-
-- Flutter SDK ^3.5.3 or higher
-- Dart SDK
-- Android Studio / Xcode (for mobile development)
-- VS Code or Android Studio IDE
+- Flutter SDK ^3.5.3
+- Dart SDK ^3.5.3
+- Android Studio / VS Code
+- iOS Simulator (for Mac users) or Android Emulator
 
 ### Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/AhmedShaltout85/news_app_provider.git
-cd news_app_provider
+git clone <your-repository-url>
+cd store_app
 ```
 
 2. Install dependencies:
@@ -58,12 +45,7 @@ cd news_app_provider
 flutter pub get
 ```
 
-3. Generate localization files:
-```bash
-flutter gen-l10n
-```
-
-4. Run the app:
+3. Run the app:
 ```bash
 flutter run
 ```
@@ -71,32 +53,57 @@ flutter run
 ## Project Structure
 
 ```
-news_app/
-├── assets/
-│   └── images/          # Image assets
+store_app/
 ├── lib/
-│   ├── l10n/           # Localization files
-│   ├── models/         # Data models
-│   ├── providers/      # State management
-│   ├── services/       # API services
-│   ├── screens/        # UI screens
-│   ├── widgets/        # Reusable widgets
-│   └── main.dart       # App entry point
-└── pubspec.yaml
+│   ├── main.dart
+│   ├── models/
+│   ├── providers/
+│   ├── screens/
+│   ├── services/
+│   └── widgets/
+├── assets/
+│   └── images/
+├── pubspec.yaml
+└── README.md
 ```
 
 ## Configuration
 
-### Adding Images
-Place your images in the `assets/images/` directory. They will be automatically included in the build.
-
-### API Configuration
-Configure your news API endpoints in the services directory.
+### Assets
+Images are stored in `assets/images/` directory. To add new images, place them in this folder and they will be automatically included.
 
 ### Localization
-The app supports multiple languages through Flutter's localization system. Add your translations in the `l10n` directory.
+The app uses `flutter_localization` for internationalization. Generate localization files using:
+```bash
+flutter gen-l10n
+```
 
-## Build
+### Splash Screen
+Configure your splash screen in `pubspec.yaml` under the `flutter_native_splash` section.
+
+## State Management
+
+This app uses the **Provider** pattern for state management, offering:
+- Simple and efficient state management
+- Easy dependency injection
+- Minimal boilerplate code
+
+## API Integration
+
+HTTP requests are handled using **Dio**, which provides:
+- Interceptors for request/response handling
+- Easy error handling
+- Request cancellation
+- File upload/download support
+
+## Security
+
+The app uses `flutter_secure_storage` for storing sensitive data like:
+- Authentication tokens
+- User credentials
+- API keys
+
+## Build & Release
 
 ### Android
 ```bash
@@ -108,41 +115,36 @@ flutter build apk --release
 flutter build ios --release
 ```
 
-### Web
-```bash
-flutter build web --release
-```
-
 ## Development
 
-### Code Style
-This project follows the official Flutter linting rules (flutter_lints ^5.0.0).
-
-### Testing
+### Running Tests
 ```bash
 flutter test
 ```
 
-## Dependencies
+### Code Quality
+This project uses `flutter_lints` for maintaining code quality. Run:
+```bash
+flutter analyze
+```
 
-For a complete list of dependencies, see [pubspec.yaml](pubspec.yaml).
+## Contributing
 
-## Version
-
-Current version: **1.0.0+1**
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
 This project is private and not published to pub.dev.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Author
-
-Ahmed Shaltout - [@AhmedShaltout85](https://github.com/AhmedShaltout85)
-
 ## Support
 
-For issues and questions, please open an issue on the GitHub repository.
+For issues and questions, please open an issue in the repository.
+
+---
+
+**Version:** 1.0.0+1  
+**Flutter SDK:** ^3.5.3
